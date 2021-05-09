@@ -6,8 +6,19 @@
 void swap(int* x, int* y) { int t = *x; *x = *y; *y = t; }
 int cmp(const void* p1, const void* p2) { return *(int*)p1 - *(int*)p2; }
 
+void shuffle(int* a, int n)
+{
+	int i, j;
+	rep(i, n)
+	{
+		j = i + rand()%(n - i);
+		swap(&a[i], &a[j]);
+	}
+}
+
 void quicksort(int *a, int n)
 {
+	shuffle(a, n);
 	int s[n][2], ss = 0, l, r, i, j, k;
 	s[ss][0] = 0, s[ss][1] = n, ss++;
 	while (ss > 0)
