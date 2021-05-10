@@ -25,7 +25,7 @@ void heapsort(int *a, int n)
 int main()
 {
 	srand(time(NULL));
-	int i, n = 100000;
+	int i, t = 0, n = 100000;
 	int a[n], b[n];
 	while (1)
 	{
@@ -33,6 +33,7 @@ int main()
 		heapsort(a, n);
 		qsort(b, n, sizeof(a[0]), cmp);
 		rep(i, n) assert(a[i] == b[i]);
+		if (++t == 10) t = 0, printf("10 arrays sorted!\n");
 	}
 	return 0;
 }
