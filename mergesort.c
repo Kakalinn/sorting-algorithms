@@ -13,9 +13,9 @@ void mergesort(int *a, int n)
 	rep(i, n) b[0][i] = a[i];
 	for (e = 1; e <= n; e *= 2, t = 1 - t)
 	{
-		for (l = 0; l + e < n; l += 2*e)
+		for (l = 0; l < n; l += 2*e)
 		{
-			i = c = l, j = m = l + e, r = min(l + 2*e, n);
+			i = c = l, j = m = min(l + e, n), r = min(l + 2*e, n);
 			while (i < m && j < r)
 			{
 				if (b[t][j] < b[t][i]) b[1 - t][c++] = b[t][j++];
@@ -24,7 +24,6 @@ void mergesort(int *a, int n)
 			while (i < m) b[1 - t][c++] = b[t][i++];
 			while (j < r) b[1 - t][c++] = b[t][j++];
 		}
-		while (l < n) b[1 - t][l] = b[t][l], l++;
 	}
 	rep(i, n) a[i] = b[t][i];
 }
