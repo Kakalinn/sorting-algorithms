@@ -1,20 +1,24 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <assert.h>
 #define rep(E, F) for (E = 0; E < (F); E++)
-void swap(int* x, int* y) { int t = *x; *x = *y; *y = t; }
-int cmp(const void* p1, const void* p2) { return *(int*)p1 - *(int*)p2; }
-
 #ifndef BASE
 #define BASE 10000
 #endif
+#ifndef MAXN
+#define MAXN 1000000
+#endif
+
+int a[MAXN], b[2][MAXN], c[BASE], d[BASE];
 void radixsort(int *a, int n)
 {
-	int i, j, e, t, b[2][n], c[BASE], d[BASE], mx = 0;
+	int i, j, e, q = 0, t, mx = 0;
 	rep(i, n) mx = mx < a[i] ? a[i] : mx;
+	while (mx > 0) mx /= BASE, q++;
 	rep(i, n) b[0][i] = a[i];
-	for (e = 1; e <= mx; e *= BASE, t = 1 - t)
+	for (t = 0, e = 1; q > 0; q--, e *= BASE, t = 1 - t)
 	{
 		rep(i, BASE) c[i] = d[i] = 0;
 		rep(i, n) c[(b[t][i]/e)%BASE]++;
@@ -24,20 +28,13 @@ void radixsort(int *a, int n)
 	rep(i, n) a[i] = b[t][i];
 }
 
-int main()
+int main(int argc, char** argv)
 {
-	srand(time(NULL));
-	int i, t = 0, n = 100000;
-	int a[n], b[n];
-	while (1)
-	{
-		rep(i, n) a[i] = b[i] = rand()%100000000;
-		a[n - 1] = b[n - 1] = 0;
-		a[0] = b[0] = 100000000;
-		radixsort(a, n);
-		qsort(b, n, sizeof(a[0]), cmp);
-		rep(i, n) assert(a[i] == b[i]);
-		if (++t == 10) t = 0, printf("10 arrays sorted!\n");
-	}
+	int i;
+	assert(argc > 1);
+	srand(atoi(argv[1]));
+	rep(i, MAXN) a[i] = rand();
+	radixsort(a, MAXN);
+	//rep(i, MAXN - 1) assert(a[i] <= a[i + 1]);
 	return 0;
 }
